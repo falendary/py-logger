@@ -38,7 +38,30 @@ app.get('/', function(req, res){
 
 		fs.readFile(path, 'utf8', function(err, data) {
 			if (err) res.send(err)
-			res.send(data)
+
+			const list = data.split('\n')
+
+			let result = ''
+
+			list.forEach((item) => {
+
+				try {
+
+					const parsed = JSON.parse(item)
+
+					result = result + parsed.timestamp + ': ' + parsed.message + '<br/>'
+
+				} catch(err) {
+
+					result = result + item + '<br/>'
+
+				}
+				
+			})
+
+			console.log('result', result)
+
+			res.send(result)
 		})
 
 })
